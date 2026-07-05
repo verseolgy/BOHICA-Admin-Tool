@@ -4,6 +4,8 @@
   "description": "BOHICA Admin Tool - Ark Dino Spawner",
   "main": "main.js",
   "homepage": "./",
+  "author": "verseolgy",
+  "license": "MIT",
   "scripts": {
     "start": "electron .",
     "build": "electron-builder",
@@ -16,22 +18,39 @@
   "build": {
     "appId": "com.bohica.admintool",
     "productName": "BOHICA Admin Tool",
+    "directories": {
+      "buildResources": "assets"
+    },
     "files": [
       "main.js",
       "preload.js",
       "index.html",
       "styles.css",
-      "script.js"
+      "script.js",
+      "assets/**/*"
     ],
     "win": {
       "target": [
-        "nsis",
-        "portable"
-      ]
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "assets/icon.ico"
     },
     "nsis": {
       "oneClick": false,
-      "allowToChangeInstallationDirectory": true
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true
     }
   }
 }
