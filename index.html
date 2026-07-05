@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOHICA Admin Tool - Ark Dino Spawner</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- PASSWORD PROTECTION OVERLAY -->
+    <div id="passwordOverlay" class="password-overlay">
+        <div class="password-container">
+            <div class="password-header">
+                <h1>🔐 BOHICA Admin Tool</h1>
+                <p>Password Protected</p>
+            </div>
+            <div class="password-input-group">
+                <input type="password" id="passwordInput" placeholder="Enter Password" class="password-input">
+                <button onclick="checkPassword()" class="password-btn">Unlock</button>
+            </div>
+            <p id="passwordError" class="password-error"></p>
+        </div>
+    </div>
+
+    <!-- MAIN APPLICATION -->
+    <div id="mainApp" class="main-app hidden">
+        <div class="container">
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+                <div class="sidebar-header">
+                    <div class="logo">🎮</div>
+                    <h2>BOHICA</h2>
+                </div>
+                <nav class="sidebar-nav">
+                    <button class="nav-item active" onclick="switchTab('capped-dinos')">Capped Dinos</button>
+                    <button class="nav-item" onclick="switchTab('normal-dinos')">Normal Dinos</button>
+                    <button class="nav-item" onclick="switchTab('items')">Items</button>
+                    <button class="nav-item" onclick="switchTab('structures')">Structures</button>
+                    <button class="nav-item" onclick="switchTab('cave-gen')">Cave Generator</button>
+                    <button class="nav-item" onclick="switchTab('colors')">Color Presets</button>
+                    <button class="nav-item" onclick="switchTab('settings')">Settings</button>
+                </nav>
+            </aside>
+
+            <!-- MAIN CONTENT -->
+            <main class="main-content">
+                <!-- HEADER -->
+                <header class="header">
+                    <div class="header-tabs">
+                        <button class="tab-btn active" id="tab-capped" onclick="switchTab('capped-dinos')">Capped Dinos</button>
+                        <button class="tab-btn" id="tab-normal" onclick="switchTab('normal-dinos')">Normal Dinos</button>
+                        <button class="tab-btn" id="tab-items" onclick="switchTab('items')">Items</button>
+                        <button class="tab-btn" id="tab-structures" onclick="switchTab('structures')">Structures</button>
+                        <button class="tab-btn" id="tab-cave" onclick="switchTab('cave-gen')">Cave Generator</button>
+                        <button class="tab-btn" id="tab-colors" onclick="switchTab('colors')">Color Presets</button>
+                        <button class="tab-btn" id="tab-custom" onclick="switchTab('custom')">Custom Colors</button>
+                    </div>
+                </header>
+
+                <!-- CONTENT SECTIONS -->
+                <div class="content-area">
+
+                    <!-- CAPPED DINOS TAB -->
+                    <section id="capped-dinos" class="tab-content active">
+                        <h1>Capped Dino Spawner</h1>
+                        
+                        <div class="form-section">
+                            <label>Search Creature:</label>
+                            <input type="text" id="creatureSearch" placeholder="Type creature name..." class="search-input" oninput="filterCreatures()">
+                            <div id="creatureList" class="creature-list">
+                                <!-- Populated by JS -->
+                            </div>
+                        </div>
+
+                        <div class="form-section">
+                            <label>Selected Creature: <span id="selectedCreature">None</span></label>
+                            <label>Preset:</label>
+                            <select id="presetSelect" onchange="updatePreset()" class="dropdown">
+                                <option value="standard">Standard</option>
+                                <option value="flex">Flex Capped</option>
+                                <option value="triple">Triple Capped</option>
+                                <option value="double">Double Capped</option>
+                                <option value="single">Single Capped</option>
+                            </select>
+                        </div>
+
+                        <div class="stats-grid">
+                            <div class="stat-item">
+                                <label>Total Stats:</label>
+                                <span id="totalStats">0</span>
+                            </div>
+                            <div class="stat-item">
+                                <label>Health:</label>
+                                <input type="number" id="health" value="0" class="stat-input" oninput="updateStats()">
+                            </div>
+                            <div class="stat-item">
+                                <label>Stamina:</label>
+                                <input type="number" id="stamina" value="0" class="stat-input" oninput="updateStats()">
+                            </div>
+                            <div class="stat-item">
+                                <label>Oxygen:</label>
+                                <input type="number" id="oxygen" value="0" class="stat-input" oninput="updateStats()">
+                            </div>
+                            <div class="stat-item">
+                                <label>Food:</label>
+                                <input type="number" id="food" value="0" class="stat-input" oninput="updateStats()">
+                            </div>
+                            <div class="stat-item">
+                                <label>Weight:</label>
+                                <input type="number" id="weight" value="0" class="stat-input" oninput="updateStats()">
+                            </div>
+                            <div class="stat-item">
+                                <label>Melee:</label>
+                                <input type="number" id="melee" value="0" class="stat-input" oninput="updateStats()">
+                            </div>
+                            <div class="stat-item">
+                                <label>Speed:</label>
+                                <input type="number" id="speed" value="0" class="stat-input" oninput="updateStats()">
+                            </div>
+                        </div>
+
+                        <div class="colors-section">
+                            <h3>Region Colors</h3>
+                            <div class="color-grid">
+                                <div class="color-item">
+                                    <label>Region 0:</label>
+                                    <select id="region0" class="color-select"><!-- Options filled by JS --></select>
+                                </div>
+                                <div class="color-item">
+                                    <label>Region 1:</label>
+                                    <select id="region1" class="color-select"><!-- Options filled by JS --></select>
+                                </div>
+                                <div class="color-item">
+                                    <label>Region 2:</label>
+                                    <select id="region2" class="color-select"><!-- Options filled by JS --></select>
+                                </div>
+                                <div class="color-item">
+                                    <label>Region 3:</label>
+                                    <select id="region3" class="color-select"><!-- Options filled by JS --></select>
+                                </div>
+                                <div class="color-item">
+                                    <label>Region 4:</label>
+                                    <select id="region4" class="color-select"><!-- Options filled by JS --></select>
+                                </div>
+                                <div class="color-item">
+                                    <label>Region 5:</label>
+                                    <select id="region5" class="color-select"><!-- Options filled by JS --></select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="checkbox-group">
+                            <label><input type="checkbox" id="pairs"> Pairs</label>
+                            <label><input type="checkbox" id="cryopod"> Cryopod</label>
+                        </div>
+
+                        <div class="command-output">
+                            <label>Generated Command:</label>
+                            <textarea id="commandOutput" readonly class="output-textarea"></textarea>
+                        </div>
+
+                        <div class="button-group">
+                            <button onclick="generateCommand()" class="btn btn-primary">Generate</button>
+                            <button onclick="copyToClipboard()" class="btn btn-secondary">Copy</button>
+                            <button onclick="clearForm()" class="btn btn-tertiary">Clear</button>
+                        </div>
+                    </section>
+
+                    <!-- OTHER TABS (PLACEHOLDER) -->
+                    <section id="normal-dinos" class="tab-content">
+                        <h1>Normal Dinos</h1>
+                        <p>Coming soon...</p>
+                    </section>
+
+                    <section id="items" class="tab-content">
+                        <h1>Items</h1>
+                        <p>Coming soon...</p>
+                    </section>
+
+                    <section id="structures" class="tab-content">
+                        <h1>Structures</h1>
+                        <p>Coming soon...</p>
+                    </section>
+
+                    <section id="cave-gen" class="tab-content">
+                        <h1>Cave Generator</h1>
+                        <p>Coming soon...</p>
+                    </section>
+
+                    <section id="colors" class="tab-content">
+                        <h1>Color Presets</h1>
+                        <p>Coming soon...</p>
+                    </section>
+
+                    <section id="custom" class="tab-content">
+                        <h1>Custom Colors</h1>
+                        <p>Coming soon...</p>
+                    </section>
+
+                    <section id="settings" class="tab-content">
+                        <h1>Settings</h1>
+                        <p>Coming soon...</p>
+                    </section>
+
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

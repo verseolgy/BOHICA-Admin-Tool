@@ -1,0 +1,9 @@
+node_modules/
+dist/
+out/
+*.exe
+*.msi
+.DS_Store
+.env
+.env.local
+package-lock.json

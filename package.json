@@ -1,0 +1,40 @@
+{
+  "name": "bohica-admin-tool",
+  "version": "1.0.0",
+  "description": "BOHICA Admin Tool - Ark Dino Spawner",
+  "main": "main.js",
+  "homepage": "./",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder",
+    "build-exe": "electron-builder --win --publish never"
+  },
+  "dependencies": {
+    "electron-squirrel-startup": "^1.1.2"
+  },
+  "devDependencies": {
+    "electron": "^latest",
+    "electron-builder": "^latest"
+  },
+  "build": {
+    "appId": "com.bohica.admintool",
+    "productName": "BOHICA Admin Tool",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "styles.css",
+      "script.js"
+    ],
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
