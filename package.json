@@ -13,8 +13,8 @@
     "electron-squirrel-startup": "^1.1.2"
   },
   "devDependencies": {
-    "electron": "^latest",
-    "electron-builder": "^latest"
+    "electron": "31.0.0",
+    "electron-builder": "24.9.1"
   },
   "build": {
     "appId": "com.bohica.admintool",
